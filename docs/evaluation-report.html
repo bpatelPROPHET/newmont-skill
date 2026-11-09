@@ -1,0 +1,563 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>newmont-brand Evaluation Report</title>
+<meta name="author" content="Prepared with Claude Code">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,400;0,600;0,700;1,400&display=swap" rel="stylesheet">
+<style>
+:root{--navy:#0C2B82;--sky:#12A6E6;--deep:#071434;--ink:#1d2433;--muted:#5b6475;--rule:#BFBFBF;--panel:rgba(18,166,230,.10);}
+@page{size:A4;margin:18mm;}
+*{box-sizing:border-box}
+html,body{background:#fff}
+body{font-family:"Open Sans","Segoe UI",Helvetica,Arial,sans-serif;color:var(--ink);font-size:9.2pt;line-height:1.38;margin:0}
+.wrap{max-width:820px;margin:0 auto;padding:0 16px}
+@media print{.wrap{max-width:none;padding:0}}
+.runhead{font-size:8pt;color:var(--muted);border-bottom:1px solid var(--sky);padding-bottom:4px;margin-bottom:22px;letter-spacing:.02em}
+h1{color:var(--navy);font-size:23pt;line-height:1.15;margin:0 0 4px;letter-spacing:-.02em}
+.sub{color:var(--sky);font-weight:700;font-size:10pt;text-transform:uppercase;letter-spacing:.06em;margin:0 0 4px}
+.byline{color:var(--muted);font-size:8.5pt;margin:0 0 18px}
+h2{color:var(--navy);font-size:15pt;margin:0 0 8px;padding-bottom:4px;border-bottom:2px solid var(--sky)}
+h3{color:var(--navy);font-size:10.5pt;margin:14px 0 4px}
+section.major{break-before:page;page-break-before:always}
+section.major.first{break-before:auto;page-break-before:auto}
+p{margin:0 0 7px}
+ul{margin:0 0 8px;padding-left:18px}
+li{margin:0 0 3px}
+table{border-collapse:collapse;width:100%;margin:5px 0 10px;font-size:8pt;break-inside:auto}
+th,td{border:1px solid var(--rule);padding:2px 5px;text-align:left;vertical-align:top}
+th{background:var(--navy);color:#fff;font-weight:600}
+tr{break-inside:avoid}
+td.n,th.n{text-align:right;white-space:nowrap}
+td.c,th.c{text-align:center}
+.kpis{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin:10px 0 14px}
+.kpi{border:1px solid var(--rule);border-top:3px solid var(--sky);padding:6px 8px}
+.kpi b{display:block;color:var(--navy);font-size:15pt;line-height:1.1}
+.kpi span{font-size:7.8pt;color:var(--muted)}
+.callout{background:var(--panel);padding:8px 10px;margin:8px 0 12px;border-left:3px solid var(--sky)}
+code,pre{font-family:Menlo,Consolas,"Courier New",monospace;font-size:7.8pt}
+code{background:#f1f4f9;padding:0 2px}
+pre{background:#f6f8fb;border:1px solid #dde3ec;padding:6px 8px;white-space:pre-wrap;word-break:break-word;margin:4px 0 10px;line-height:1.35}
+.small{font-size:8pt;color:var(--muted)}
+.fig{border:1px solid var(--rule);padding:6px;margin:6px 0 8px;break-inside:avoid}
+.fig svg{width:100%;height:auto;display:block}
+.yes{color:var(--navy);font-weight:700}
+.two{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+@media (max-width:640px){.kpis{grid-template-columns:repeat(2,1fr)}.two{grid-template-columns:1fr}table{font-size:8pt}}
+.prompt h3{margin-top:10px}
+.prompt{break-inside:auto}.prompt pre{font-size:6.9pt;line-height:1.28;margin:2px 0 6px}.prompt h3{margin:6px 0 2px}.tree pre{font-size:7pt;line-height:1.25}
+</style>
+</head>
+<body>
+<div class="wrap">
+<div class="runhead">newmont-brand skill · Evaluation suite and determinism report · 2026-11-09</div>
+
+<section class="major first" id="summary">
+<p class="sub">Evaluation report</p>
+<h1>newmont-brand skill: evaluation suite and determinism</h1>
+<p class="byline">Prepared with Claude Code · 9 November 2026 · Test runs dated 5 November 2026</p>
+
+<h2>1. Summary</h2>
+<p><b>What the skill is.</b> <code>newmont-brand</code> is a Claude skill that applies Newmont's visual identity (colours, Open Sans type scale, page geometry in points, nine page types, logo, imagery, voice) to decks, HTML pages and documents. It lives in <code>/Users/bpatel/dev/newmont-skill/</code>: <code>SKILL.md</code> (the rules and the process), <code>scripts/newmont_kit.py</code> (python-pptx kit with one method per page type), <code>scripts/check_deck.py</code> and <code>scripts/inspect_pptx.py</code> (the executable brand checker), and <code>evals/</code> with 9 test cases in the <code>claude plugin eval</code> layout. Run data and grading tools live in the sibling workspace <code>/Users/bpatel/dev/newmont-skill-workspace/</code>.</p>
+
+<div class="kpis">
+<div class="kpi"><b>9</b><span>cases, 63 assertions in total</span></div>
+<div class="kpi"><b>87% → 100%</b><span>pass rate, original skill vs revised (round one, 4 cases)</span></div>
+<div class="kpi"><b>5 → 0</b><span>assertions that flip between runs of one prompt (round one)</span></div>
+<div class="kpi"><b>3</b><span>unattended Opus runs per prompt per configuration</span></div>
+</div>
+
+<h3>Headline result per iteration</h3>
+<table>
+<tr><th>Iteration</th><th>What was run</th><th>Headline</th></tr>
+<tr><td>1</td><td>Original skill (snapshot), 4 cases × 3 runs</td><td>87% ± 12%. Brand mechanics never failed; 5 assertions flipped between runs.</td></tr>
+<tr><td>2</td><td>Revised skill vs original, same 4 cases</td><td>100% ± 0% vs 87% ± 12%; 0 flips; deck builds faster, HTML slower (now renders).</td></tr>
+<tr><td>3</td><td>Revised skill, 4 harder cases (round two)</td><td>92% ± 10%; two cases drifted (risk layout three ways; placeholder deck 6/8/8 slides).</td></tr>
+<tr><td>4</td><td>Patched skill, the 2 drifting cases</td><td>100% ± 0% vs 84% ± 9% pre-patch; identical structures; time 61.7 s vs 107.3 s.</td></tr>
+<tr><td>5</td><td>Financial template case (round three)</td><td>100% ± 0%; same two-page structure, same four tiles, same four guidance rows in all runs.</td></tr>
+</table>
+
+<div class="callout"><b>Conclusion.</b> The original skill reproduced the brand numbers correctly every time; what varied was judgment the skill left open: what to ask, how to handle text that overruns, which page type fits which content, how long a placeholder deck is, and whether to look at the result. Each source of drift was removed by turning the open judgment into a rule in <code>SKILL.md</code> or a method in the kit, then rerunning the same prompts three times. Across all nine cases the latest skill version passes every assertion in every run and no assertion flips. The remaining variation is wording the skill must invent (titles when the brief gives none, units in placeholder tables), which every run states in its reply. The suite is now saturated, so it needs harder cases to keep discriminating.</div>
+</section>
+
+<section class="major" id="problem">
+<h2>2. The problem</h2>
+<p>The same prompt produced visibly different outputs from run to run. The goal of the test plan (<code>TEST-PLAN.md</code>) was to measure how consistently the skill turns the same prompt into the same quality of output, find what varies, and verify that question gating removes "assumed and built the wrong thing" failures.</p>
+<p>The baseline (iteration 1, the original skill) settled where the drift was. Every brand-mechanics assertion (Open Sans everywhere, palette-only colours, no shadows, gradients or rounded corners, footer and logo on content pages, 960 × 540 pt slides) passed in every run. The assertions that flipped were all about content handling and intake. In the words of the analyst notes for the complete-brief case, the brand assertions "do not discriminate".</p>
+<h3>Why output varied: six sources identified in TEST-PLAN.md</h3>
+<table>
+<tr><th>#</th><th>Source</th><th>Effect</th></tr>
+<tr><td>1</td><td><b>No intake step.</b></td><td>Format, page types, deck name, date, photos, spelling, slide count and the content itself were left to the model to guess.</td></tr>
+<tr><td>2</td><td><b>Photos required but never gated.</b></td><td>With no image paths, runs skipped photos, drew placeholder rectangles, downloaded stock images or crashed the kit.</td></tr>
+<tr><td>3</td><td><b>Toolchain assumed, not checked.</b></td><td>python-pptx, <code>pdffonts</code> and static Open Sans were all absent on the test machine, so each run improvised (installed, substituted or skipped verification).</td></tr>
+<tr><td>4</td><td><b>The 230-line kit lived inline.</b></td><td>Every run had to transcribe it into <code>newmont_kit.py</code>, inviting transcription errors and partial rewrites.</td></tr>
+<tr><td>5</td><td><b>No content-to-page-type mapping.</b></td><td>The same brief became a different slide structure each run.</td></tr>
+<tr><td>6</td><td><b>Verification unreachable.</b></td><td>"Render and look at every page" had no concrete command, so some runs rendered and fixed, others shipped blind.</td></tr>
+</table>
+</section>
+
+<section class="major" id="pipeline">
+<h2>3. The evaluation pipeline</h2>
+<p>Each case is run three times per skill version by independent Opus subagents that see only the skill and the prompt. Outputs are graded the same way every time by scripts, then by an LLM grader for judgment calls, and aggregated into a benchmark. The analyst reads the three runs side by side and writes <code>variance.md</code>; anything that varies becomes a patch to the skill or kit, followed by a rerun.</p>
+<div class="fig">
+<svg viewBox="0 0 1000 800" xmlns="http://www.w3.org/2000/svg" font-family="Open Sans, Segoe UI, Helvetica, Arial, sans-serif" role="img" aria-label="Evaluation pipeline flowchart">
+<defs>
+<marker id="ah" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#0C2B82"/></marker>
+</defs>
+<style>
+.bx{fill:#fff;stroke:#0C2B82;stroke-width:1}
+.bxs{fill:#EAF6FD;stroke:#0C2B82;stroke-width:1}
+.t{font-size:17px;font-weight:700;fill:#0C2B82}
+.l{font-size:15px;fill:#1d2433}
+.m{font-size:14px;fill:#1d2433;font-family:Menlo,Consolas,monospace}
+.ar{stroke:#0C2B82;stroke-width:1.6;fill:none;marker-end:url(#ah)}
+.lp{stroke:#12A6E6;stroke-width:1.8;fill:none;stroke-dasharray:6 4;marker-end:url(#ah)}
+.badge{fill:#12A6E6}
+.bt{font-size:14px;font-weight:700;fill:#fff}
+.note{font-size:14px;fill:#0C2B82;font-style:italic}
+</style>
+<!-- Row 1 -->
+<rect class="bx" x="20" y="20" width="290" height="160"/>
+<text class="t" x="34" y="46">1  Case  evals/&lt;case&gt;/</text>
+<text class="m" x="34" y="74">prompt.md</text><text class="l" x="134" y="74">the request</text>
+<text class="m" x="34" y="100">case.yaml</text><text class="l" x="134" y="100">expected outcome</text>
+<text class="m" x="34" y="126">graders/</text><text class="l" x="134" y="126">one per assertion</text>
+<text class="m" x="34" y="152">files/</text><text class="l" x="134" y="152">inputs, scaffold</text>
+
+<rect class="bxs" x="355" y="20" width="290" height="160"/>
+<text class="t" x="369" y="46">2  Three unattended Opus runs</text>
+<rect class="bx" x="372" y="62" width="78" height="34"/><text class="l" x="386" y="84">run-1</text>
+<rect class="bx" x="461" y="62" width="78" height="34"/><text class="l" x="475" y="84">run-2</text>
+<rect class="bx" x="550" y="62" width="78" height="34"/><text class="l" x="564" y="84">run-3</text>
+<text class="l" x="369" y="122">in parallel. Rule in the brief:</text>
+<text class="l" x="369" y="144" font-weight="700">"if you need the user, write</text>
+<text class="l" x="369" y="164" font-weight="700">questions.md and stop"</text>
+
+<rect class="bx" x="690" y="20" width="290" height="160"/>
+<text class="t" x="704" y="46">3  Outputs per run</text>
+<text class="l" x="704" y="74">.pptx or .html deliverable</text>
+<text class="l" x="704" y="100">build script</text>
+<text class="l" x="704" y="126">renders (PDF, PNG)</text>
+<text class="l" x="704" y="152">questions.md if it stopped</text>
+
+<path class="ar" d="M310,100 L353,100"/>
+<path class="ar" d="M645,100 L688,100"/>
+<path class="ar" d="M835,180 L835,228"/>
+
+<!-- Row 2 (right to left) -->
+<rect class="bx" x="690" y="230" width="290" height="180"/>
+<text class="t" x="704" y="256">4  Programmatic graders</text>
+<text class="m" x="704" y="282">grade_all.py</text><text class="l" x="822" y="282">dispatches to</text>
+<text class="m" x="704" y="306">grade_pptx.py</text>
+<text class="m" x="704" y="328">grade_html.py</text>
+<text class="m" x="704" y="350">grade_round2.py</text>
+<text class="m" x="704" y="374">inspect_pptx.py</text><text class="l" x="850" y="374">XML dump</text>
+<text class="m" x="704" y="398">render.sh</text><text class="l" x="796" y="398">soffice→PDF→PNG</text>
+
+<rect class="bx" x="355" y="230" width="290" height="180"/>
+<text class="t" x="369" y="256">5  LLM grader (Opus)</text>
+<text class="l" x="369" y="282">skill-creator grader.md</text>
+<text class="l" x="369" y="308">judgment assertions:</text>
+<text class="l" x="369" y="332">invented figures, questions</text>
+<text class="l" x="369" y="356">asked, reply format, changes</text>
+<text class="l" x="369" y="380">listed, render looked at</text>
+
+<rect class="bx" x="20" y="230" width="290" height="180"/>
+<text class="t" x="34" y="256">6  grading.json per run</text>
+<text class="l" x="34" y="282">per assertion: text,</text>
+<text class="l" x="34" y="306">passed, evidence</text>
+<text class="l" x="34" y="332">plus programmatic.json</text>
+<text class="l" x="34" y="356">and timing.json</text>
+<circle class="badge" cx="286" cy="386" r="13"/><text class="bt" x="281" y="391">A</text>
+
+<path class="ar" d="M690,320 L647,320"/>
+<path class="ar" d="M355,320 L312,320"/>
+<path class="ar" d="M165,410 L165,458"/>
+
+<!-- Row 3 -->
+<rect class="bx" x="20" y="460" width="290" height="140"/>
+<text class="t" x="34" y="486">7  aggregate_benchmark.py</text>
+<text class="m" x="34" y="512">benchmark.json / .md</text>
+<text class="l" x="34" y="538">pass rate, time, tokens</text>
+<text class="l" x="34" y="562">mean ± stddev per config</text>
+
+<rect class="bx" x="355" y="460" width="290" height="140"/>
+<text class="t" x="369" y="486">8  Review</text>
+<text class="m" x="369" y="512">generate_review.py --static</text>
+<text class="l" x="369" y="538">HTML viewer per iteration</text>
+<text class="l" x="369" y="562">analyst notes in benchmark</text>
+
+<rect class="bx" x="690" y="460" width="290" height="140"/>
+<text class="t" x="704" y="486">9  variance.md per case</text>
+<text class="l" x="704" y="512">passed in all, flipped,</text>
+<text class="l" x="704" y="538">structural differences</text>
+<text class="l" x="704" y="562">(slides, page types, layout)</text>
+<circle class="badge" cx="956" cy="576" r="13"/><text class="bt" x="951" y="581">B</text>
+
+<path class="ar" d="M310,530 L353,530"/>
+<path class="ar" d="M645,530 L688,530"/>
+<path class="ar" d="M835,600 L835,628"/>
+
+<!-- Row 4 -->
+<rect class="bxs" x="690" y="630" width="290" height="70"/>
+<text class="t" x="704" y="656">10  Patch skill or kit</text>
+<text class="l" x="704" y="682">rule, kit method or checker</text>
+
+<rect class="bxs" x="355" y="630" width="290" height="70"/>
+<text class="t" x="369" y="656">11  Rerun as iteration-N</text>
+<text class="l" x="369" y="682">same prompts, 3 runs each</text>
+
+<path class="ar" d="M690,665 L647,665"/>
+<path class="lp" d="M355,665 L332,665 L332,200 L500,200 L500,183"/>
+<text class="note" x="346" y="216">loop until 0 flips</text>
+
+<!-- Metrics band -->
+<rect class="bx" x="20" y="718" width="960" height="72"/>
+<circle class="badge" cx="44" cy="742" r="13"/><text class="bt" x="39" y="747">A</text>
+<text class="l" x="64" y="747"><tspan font-weight="700">Flipping assertions:</tspan> pass in some of the 3 runs of one prompt and fail in others. Target 0.</text>
+<circle class="badge" cx="44" cy="772" r="13"/><text class="bt" x="39" y="777">B</text>
+<text class="l" x="64" y="777"><tspan font-weight="700">Structural differences</tspan> in variance.md: slide count, page types, layout, wording, even when all pass.</text>
+</svg>
+</div>
+<p class="small">Run data path pattern: <code>newmont-skill-workspace/iteration-N/&lt;case&gt;/&lt;config&gt;/run-K/</code> with <code>outputs/</code>, <code>transcript.md</code>, <code>programmatic.json</code>, <code>grading.json</code>, <code>timing.json</code>. Configurations: <code>old_skill</code> (the snapshot in <code>skill-snapshot/</code>, or in iteration 4 the pre-patch revised skill) and <code>with_skill</code>.</p>
+<h3>Pipeline components</h3>
+<table>
+<tr><th>Tool</th><th>Role (from its docstring or header)</th></tr>
+<tr><td><code>tools/grade_all.py</code></td><td>Runs the programmatic graders over every run in an iteration folder; writes <code>programmatic.json</code> (text, passed, evidence) per run. Holds the per-case arguments (expected slide count, deck name, content and no-furniture slides, required-text file) and adds a "built the deliverable rather than stopping with questions" check.</td></tr>
+<tr><td><code>tools/grade_pptx.py</code></td><td>Grades a pptx against the Newmont brand checks.</td></tr>
+<tr><td><code>tools/grade_html.py</code></td><td>Grades a Newmont HTML page, optionally against a required-text file.</td></tr>
+<tr><td><code>tools/grade_round2.py</code></td><td>Round-two case-specific graders (long content, placeholders, off-palette, photo backdrop).</td></tr>
+<tr><td><code>tools/inspect_pptx.py</code></td><td>Dumps a JSON description of a pptx by walking the raw XML.</td></tr>
+<tr><td><code>tools/render.sh</code></td><td>Renders a pptx to PDF with LibreOffice, then each page to a 1280 px PNG with pymupdf.</td></tr>
+<tr><td><code>tools/make_fixtures.py</code></td><td>Writes the eval fixtures (input decks and photos).</td></tr>
+</table>
+</section>
+
+<section class="major" id="cases">
+<h2>4. Cases and coverage</h2>
+<p>Assertion counts are the number of files in each case's <code>graders/</code> folder (63 in total).</p>
+<table>
+<tr><th>Case</th><th>What it probes</th><th class="c">Fully specified?</th><th class="n">Assertions</th><th>Dimension</th></tr>
+<tr><td><code>underspecified-deck-asks-first</code></td><td>One-line deck request with no figures, photos, name, date or length. Should stop and ask a short list; must not invent Q3 safety numbers.</td><td class="c">No</td><td class="n">6</td><td>Intake gating</td></tr>
+<tr><td><code>complete-brief-deck</code></td><td>Every input given (name, date, spelling, six pages verbatim, two photos). Build without asking and match the brief exactly; includes a statement that overruns two lines.</td><td class="c">Yes</td><td class="n">11</td><td>Complete brief fidelity</td></tr>
+<tr><td><code>html-one-pager</code></td><td>Intranet page in HTML, no photos. Palette, Open Sans, flat design, logo SVG top-right, callout in sky 10% panel, verbatim text.</td><td class="c">Yes</td><td class="n">7</td><td>Format translation (HTML)</td></tr>
+<tr><td><code>fix-off-brand-deck</code></td><td>Agency deck in Calibri with wrong colours, shadows, rounded corners, gradient. Keep all text, restyle, list changes; ask at most name and date.</td><td class="c">Mostly</td><td class="n">7</td><td>Restyling fidelity</td></tr>
+<tr><td><code>just-go-with-placeholders</code></td><td>Topic-only request where the person says to proceed with placeholders and no photos. Bracketed figures, sky photo placeholders, assumptions first.</td><td class="c">No (told to proceed)</td><td class="n">6</td><td>Placeholders and defaults</td></tr>
+<tr><td><code>long-content-must-split</code></td><td>Six workstreams, seven risks and a decision sentence that do not fit their natural page types. Split, never shrink; same page count across runs.</td><td class="c">Yes</td><td class="n">8</td><td>Long content and splitting</td></tr>
+<tr><td><code>off-palette-request</code></td><td>HTML flyer where a sponsor teal must be used on the top banner only; departure stated in one line, no refusal.</td><td class="c">Yes</td><td class="n">5</td><td>Off-palette request</td></tr>
+<tr><td><code>photo-backdrop-and-phases</code></td><td>Photo backdrop page with two panels and a phase panels page, built with the kit methods at measured geometry.</td><td class="c">Yes</td><td class="n">6</td><td>Special page types</td></tr>
+<tr><td><code>financial-template-two-slides</code></td><td>Typo-laden template request: two slides, no cover. Summary page with KPI tiles and comparison table with periods and Δ column, right-aligned, using <code>kpi_tiles</code> and <code>fin_table</code>.</td><td class="c">Yes (template)</td><td class="n">7</td><td>Financial template</td></tr>
+</table>
+
+<h3>Coverage matrix: skill behaviour × case</h3>
+<p class="small">U underspecified · C complete-brief · H html-one-pager · F fix-off-brand · J just-go · L long-content · O off-palette · P photo-backdrop · T financial-template. A mark means a grader file in that case checks the behaviour.</p>
+<table>
+<tr><th>Behaviour</th><th class="c">U</th><th class="c">C</th><th class="c">H</th><th class="c">F</th><th class="c">J</th><th class="c">L</th><th class="c">O</th><th class="c">P</th><th class="c">T</th></tr>
+<tr><td>Stops and asks when must-haves are missing</td><td class="c yes">●</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+<tr><td>Builds without asking when the brief is complete</td><td></td><td class="c yes">●</td><td class="c yes">●</td><td class="c yes">●</td><td class="c yes">●</td><td class="c yes">●</td><td class="c yes">●</td><td class="c yes">●</td><td class="c yes">●</td></tr>
+<tr><td>Content verbatim / preserved</td><td></td><td class="c yes">●</td><td class="c yes">●</td><td class="c yes">●</td><td></td><td class="c yes">●</td><td class="c yes">●</td><td class="c yes">●</td><td></td></tr>
+<tr><td>Brand mechanics (font, palette, effects, furniture, size)</td><td></td><td class="c yes">●</td><td class="c yes">●</td><td class="c yes">●</td><td class="c yes">●</td><td class="c yes">●</td><td class="c yes">●</td><td class="c yes">●</td><td class="c yes">●</td></tr>
+<tr><td>Page-type choice, structure, splitting</td><td></td><td class="c yes">●</td><td></td><td></td><td class="c yes">●</td><td class="c yes">●</td><td></td><td class="c yes">●</td><td class="c yes">●</td></tr>
+<tr><td>Overrun handled without shrinking or moving</td><td></td><td class="c yes">●</td><td></td><td></td><td></td><td class="c yes">●</td><td></td><td></td><td></td></tr>
+<tr><td>Placeholders instead of invented figures or photos</td><td></td><td></td><td></td><td></td><td class="c yes">●</td><td></td><td></td><td></td><td class="c yes">●</td></tr>
+<tr><td>Kit methods used, not hand-built</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td class="c yes">●</td><td class="c yes">●</td></tr>
+<tr><td>Checker run and render looked at</td><td></td><td class="c yes">●</td><td></td><td></td><td class="c yes">●</td><td class="c yes">●</td><td class="c yes">●</td><td class="c yes">●</td><td class="c yes">●</td></tr>
+<tr><td>Reply states assumptions, changes, departures</td><td></td><td></td><td></td><td class="c yes">●</td><td class="c yes">●</td><td class="c yes">●</td><td class="c yes">●</td><td></td><td class="c yes">●</td></tr>
+<tr><td>No stray files in outputs</td><td></td><td class="c yes">●</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+</table>
+<p><b>Not yet covered:</b> documents (Word, PDF, Docs; the skill has a "Documents" section but no case produces one); the timeline (Gantt) page type; charts built from real data (only placeholder chart boxes are tested); multi-turn "just go" after questions (no case answers a <code>questions.md</code> and continues); non-English requests or content.</p>
+</section>
+
+<section class="major" id="results">
+<h2>5. Results</h2>
+<h3>Per iteration (from benchmark.json / benchmark.md)</h3>
+<table>
+<tr><th>Iteration</th><th>Cases</th><th>Configuration</th><th class="n">Pass rate</th><th class="n">Time per run</th><th class="n">Tokens per run</th></tr>
+<tr><td>1</td><td>4 (round one)</td><td>old_skill (original snapshot)</td><td class="n">87% ± 12%</td><td class="n">82.4 s ± 62.5 s</td><td class="n">91,745 ± 8,676</td></tr>
+<tr><td rowspan="2">2</td><td rowspan="2">4 (round one)</td><td>with_skill (revised)</td><td class="n">100% ± 0%</td><td class="n">68.2 s ± 37.4 s</td><td class="n">92,340 ± 10,079</td></tr>
+<tr><td>old_skill (same runs as iteration 1)</td><td class="n">87% ± 12%</td><td class="n">82.4 s ± 62.5 s</td><td class="n">91,745 ± 8,676</td></tr>
+<tr><td>3</td><td>4 (round two)</td><td>with_skill (pre-patch)</td><td class="n">92% ± 10%</td><td class="n">84.3 s ± 28.4 s</td><td class="n">98,961 ± 8,387</td></tr>
+<tr><td rowspan="2">4</td><td rowspan="2">2 (just-go, long-content)</td><td>with_skill (patched)</td><td class="n">100% ± 0%</td><td class="n">61.7 s ± 10.6 s</td><td class="n">97,785 ± 3,912</td></tr>
+<tr><td>old_skill (= iteration 3 pre-patch runs)</td><td class="n">84% ± 9%</td><td class="n">107.3 s ± 15.3 s</td><td class="n">106,656 ± 3,039</td></tr>
+<tr><td>5</td><td>1 (financial template)</td><td>with_skill</td><td class="n">100% ± 0%</td><td class="n">99.0 s ± 22.7 s</td><td class="n">104,544 ± 5,121</td></tr>
+</table>
+<p class="small">Each figure is mean ± standard deviation over 3 runs per case. Iteration 2 shows time -14.2 s and tokens +596 (+0.6%) against the original skill. Iteration 3 and 5 have no baseline configuration.</p>
+
+<h3>Round one per case (RESULTS-2026-11-05.md)</h3>
+<table>
+<tr><th>Case</th><th>Old skill (3 runs)</th><th>New skill (3 runs)</th><th>What flipped before</th></tr>
+<tr><td>underspecified-deck-asks-first</td><td>4/6, 5/6, 4/6</td><td>6/6 ×3</td><td>7 to 8 questions, topics varied, deck name asked in 1 of 3, spelling and format asked every time</td></tr>
+<tr><td>complete-brief-deck</td><td>9/11, 9/11, 11/11</td><td>11/11 ×3</td><td>two-line overrun fixed three different ways; stray .venv and proxy decks</td></tr>
+<tr><td>html-one-pager</td><td>7/7, 6/7, 7/7</td><td>7/7 ×3</td><td>callout style split 2:1; no run looked at its page</td></tr>
+<tr><td>fix-off-brand-deck</td><td>7/7, 6/7, 6/7</td><td>7/7 ×3</td><td>titles rewritten and credit line reordered in 2 of 3</td></tr>
+</table>
+<h3>Round two per case</h3>
+<table>
+<tr><th>Case</th><th>First pass (iter. 3)</th><th>What varied</th><th>After fix (iter. 4)</th></tr>
+<tr><td>off-palette-request</td><td>5/5 ×3</td><td>nothing material: teal on the top band, white eyebrow for contrast, departure stated</td><td>not rerun</td></tr>
+<tr><td>photo-backdrop-and-phases</td><td>6/6 ×3</td><td>nothing: decks near-identical, kit methods used</td><td>not rerun</td></tr>
+<tr><td>long-content-must-split</td><td>6/8, 6/8, 7/8</td><td>seven risks laid out three ways (table, two statement pages, plain two-column page); 6/7/6 slides</td><td>8/8 ×3, identical 5-slide structure</td></tr>
+<tr><td>just-go-with-placeholders</td><td>5/6, 5/6, 6/6</td><td>6/8/8 slides, different outlines, covers hand-built</td><td>6/6 ×3, one 8-page outline, about half the run time</td></tr>
+</table>
+<h3>Round three</h3>
+<p><code>financial-template-two-slides</code>: 7/7 in all three runs after <code>kpi_tiles</code>, <code>fin_table</code> and the "Financial results pages" and "Templates" sections were added; same two-page structure, same four tiles (production, AISC, adjusted EBITDA, free cash flow), same four guidance rows.</p>
+
+<h3>Assertions that flipped</h3>
+<p>Computed from the per-run <code>grading.json</code> files: an assertion flips when it passes in at least one and fails in at least one of the three runs of the same prompt and configuration.</p>
+<table>
+<tr><th>Iteration / config</th><th>Case</th><th>Flipping assertion</th></tr>
+<tr><td rowspan="5">1 and 2, old_skill</td><td>underspecified-deck-asks-first</td><td>The questions ask for the deck name and date used on the cover and footer</td></tr>
+<tr><td>complete-brief-deck</td><td>The page-3 statement exceeds the two-line limit; the run keeps the wording and geometry and flags it</td></tr>
+<tr><td>complete-brief-deck</td><td>The outputs contain only the deliverable, the build script and allowed kit copies (no stray files)</td></tr>
+<tr><td>html-one-pager</td><td>Eyebrow uppercase sky, subheads sky bold, callout in the sky 10% panel</td></tr>
+<tr><td>fix-off-brand-deck</td><td>fixed.pptx has four slides and every sentence of the original text</td></tr>
+<tr><td rowspan="3">3, with_skill pre-patch</td><td>just-go-with-placeholders</td><td>Every safety figure is a bracketed placeholder</td></tr>
+<tr><td>just-go-with-placeholders</td><td>The deck is 8 to 10 pages with a cover and a statement page</td></tr>
+<tr><td>long-content-must-split</td><td>All seven risks and mitigations are on a lead-in list page within limits</td></tr>
+</table>
+<div class="callout"><b>None flip now.</b> In the latest with_skill run of every case (iteration 2 for the four round-one cases, iteration 3 for off-palette and photo-backdrop, iteration 4 for long-content and just-go, iteration 5 for financial-template) no assertion flips. The iteration 2 analyst note records 0 of 31 assertions flipping across 12 runs. The same note counts "4 of 29" baseline flips plus 2 back-graded ones; the recount from <code>grading.json</code> above gives 5 distinct flipping assertions, because the "questions are few and material" assertion failed in all three baseline runs (it did not flip).</div>
+</section>
+
+<section class="major" id="drift">
+<h2>6. Drift found and how it was removed</h2>
+<table>
+<tr><th style="width:24%">Symptom</th><th style="width:34%">Root cause</th><th>Fix</th></tr>
+<tr><td>First revised intake asked about spelling in all 3 runs (6 questions, identical to the example)</td><td>The worked example in the skill listed a spelling question that the intake rules say to decide, not ask; runs copied the example</td><td>Example corrected; those runs set aside in <code>iteration-2/_superseded</code>; rerun asks the same 5 questions in the same order, 6/6 ×3</td></tr>
+<tr><td>Deck name and date asked in only 1 of 3 baseline runs; 7 to 8 questions with varying topics</td><td>No intake step: nothing said what must be known before building</td><td>"Before you build": must-have table (content, format, photos, deck name and date) with a default for each; one numbered message, 4 to 6 questions</td></tr>
+<tr><td>HTML callout style split 2:1 (sky panel vs bordered box)</td><td>Callout style left open</td><td>Decide-and-state default: sky 10% panel; bordered box only on another tint</td></tr>
+<tr><td>No HTML run looked at its page (0 of 3)</td><td>"Render and look" had no concrete command</td><td>Render commands and a look-for list in "Checking before delivering"; HTML pages opened before delivery; 3 of 3 rendered</td></tr>
+<tr><td>Restyle runs rewrote titles and reordered the credit line in 2 of 3</td><td>"Keep the content" was undefined</td><td>"Restyling an existing deck": every sentence word for word, in order, on its slide; rewrites offered separately in the reply</td></tr>
+<tr><td>Two-line overrun fixed three ways (moved columns, widened box, left as is)</td><td>No rule for text the person gave that exceeds a limit</td><td>Keep the words and the measured geometry; name the line to shorten and by how much</td></tr>
+<tr><td>Stray files (.venv, .lo_profile, proxy decks) in 2 of 3 baseline runs</td><td>Toolchain assumed, not checked; runs improvised installs and font proxies</td><td>Setup check before code; kit is a file to copy; say the preview used a substitute font instead of switching fonts</td></tr>
+<tr><td>Seven risks laid out three ways (table, two statement pages, plain page); 6/7/6 slides</td><td>No page type for lead-in lists; nothing for a statement without supporting points</td><td><code>lead_in_list</code> in the kit and the table; <code>statement()</code> without columns; never a table for sentences</td></tr>
+<tr><td>Placeholder deck length 6/8/8 with different outlines; one bare "0" unbracketed</td><td>No default outline for topic-only requests</td><td>Fixed 8-page default outline in "Choosing page types"; templates show bracketed formats</td></tr>
+<tr><td>Covers and closings hand-built in all 3 placeholder runs</td><td>Kit <code>cover()</code> and <code>closing()</code> required real photo files</td><td>Photo placeholders inside the kit: pass <code>None</code> to get the sky "PHOTO: …, replace" box</td></tr>
+<tr><td><code>check_deck.py</code> printed nothing</td><td>It exited silently without its helper module beside it</td><td>Fixed during testing (RESULTS-2026-11-05.md)</td></tr>
+<tr><td>Financial table only 3 columns, numbers left-aligned</td><td>The table page type allows 3 columns and had no financial variant; a baseline run also flagged left-aligned table numbers</td><td><code>kpi_tiles</code> and <code>fin_table</code> (N columns, right-aligned, grouped rows) plus "Financial results pages"</td></tr>
+<tr><td>Δ column basis (prior quarter vs prior year) and footnote size (8 vs 10 pt) varied; table y and body size differed</td><td>Not specified in the financial section</td><td>Pinned: Δ vs prior quarter, <code>fin_table</code> at y 100, 12 pt summary body, 10 pt footnote. Not rerun</td></tr>
+</table>
+</section>
+
+<section class="major" id="determinism">
+<h2>7. How determinism was engineered</h2>
+<p>Every flip traced back to a judgment the skill left open, never to a brand number. The working rule was: when a case flips, look for the missing rule or kit method rather than tightening wording.</p>
+<table>
+<tr><th style="width:30%">Principle</th><th>What it means</th><th style="width:26%">Implemented in SKILL.md</th></tr>
+<tr><td>Move judgment into rules and kit methods</td><td>Where runs chose differently, give one answer: a page type per content shape, one kit method per page type, placeholders built into the kit.</td><td>"Choosing page types"; "Making a deck (PowerPoint)" kit table</td></tr>
+<tr><td>Must-have vs decide-and-state inputs</td><td>Only inputs that would make the output wrong if guessed are asked (content, format, photos, deck name and date). Everything else gets a default named in the reply.</td><td>"Before you build"; step 1 of "How to use this skill"</td></tr>
+<tr><td>Fixed default outlines</td><td>A topic-only request always becomes the same 8 pages in the same order; a financial request the same two pages.</td><td>"Choosing page types" (default outline); "Financial results pages"</td></tr>
+<tr><td>Hard thresholds ("exactly three")</td><td>Three-column pages take exactly three points; four or more is a lead-in list; up to 8 items per page, a 9th starts a new page.</td><td>"Choosing page types" table</td></tr>
+<tr><td>Keep words and geometry on overrun</td><td>Never shrink type, widen boxes or move neighbours; name the line to cut. Restyles keep every sentence word for word.</td><td>"Choosing page types" (overrun rule); "Restyling an existing deck"</td></tr>
+<tr><td>Executable checker plus render-and-look</td><td><code>check_deck.py</code> checks fonts, palette, effects, furniture and size; LibreOffice render and a list of what to look for that a script cannot see.</td><td>"Checking before delivering"; setup check in "Making a deck"; step 4 of "How to use"</td></tr>
+<tr><td>A reply format that states assumptions</td><td>Open with assumptions and placeholders, then pages built, what was checked, departures one line each. What the skill must invent becomes visible and changeable.</td><td>"Checking before delivering" (Reply format); step 5 of "How to use"</td></tr>
+</table>
+<h3>The process the skill now prescribes (from "How to use this skill")</h3>
+<ol>
+<li><b>Get the inputs.</b> Compare the request with "Before you build"; ask once for any missing must-have, or build at once if nothing is missing.</li>
+<li><b>Map content to page types</b> with the table and write the page list before coding.</li>
+<li><b>Run the setup check</b>, then build with <code>scripts/newmont_kit.py</code> (never retyped).</li>
+<li><b>Check and look:</b> run <code>check_deck.py</code>, render, open the pages, fix every FAIL.</li>
+<li><b>Deliver</b> with the fixed reply format.</li>
+</ol>
+</section>
+
+<section class="major" id="caveats">
+<h2>8. Caveats and limits</h2>
+<ul>
+<li><b>Open Sans is not installed</b> on the test machine, so every LibreOffice preview used a substitute (serif) font. Line breaks in the previews may differ from PowerPoint with Open Sans. Runs were told to say so and not to switch fonts; all new-skill deck runs did.</li>
+<li><b>python-pptx is not installed system-wide</b>, so each run installed it its own way (scratchpad venv, <code>pip --user</code>). The harness itself uses a uv venv in the workspace.</li>
+<li><b>Stored transcripts are summaries of final messages</b>, not full tool logs. Assertions such as "checker run and deck rendered" are graded from the reply plus the <code>renders/</code> folder.</li>
+<li><b>Three runs per prompt is a small sample.</b> 0 flips in 3 runs does not prove a flip rate of zero; a rare failure could still appear.</li>
+<li><b>LLM graders</b> (Opus) judge the judgment assertions. They are not deterministic themselves; programmatic checks cover what a script can measure.</li>
+<li><b>Assertions are saturated at 100%.</b> The latest version passes everything, so the suite no longer discriminates; it needs harder cases to keep finding drift. The long-content slide-count check was widened from 6 to 9 slides to 5 to 9 after the lead-in-list patch, so the correct 5-slide deck now passes it.</li>
+<li><b>Suggested page types are not measured</b> from the source deck: <code>lead_in_list</code>, <code>kpi_tiles</code>, <code>fin_table</code> and the financial pages are derived from its components and marked "suggested".</li>
+<li><b>Round-three pins are untested:</b> the Δ basis, table y, summary body size and footnote size were added after iteration 5 and not rerun. Off-palette and photo-backdrop were not rerun after the round-two patch.</li>
+</ul>
+</section>
+
+<section id="rerun" style="margin-top:14px">
+<h2>9. How to rerun</h2>
+<h3>Option A: claude plugin eval (from the skill folder)</h3>
+<pre>cd /Users/bpatel/dev/newmont-skill
+claude plugin eval . --allow-tools Write,Edit,Bash --scaffold</pre>
+<p>This runs the same case folders under <code>evals/</code> (prompt.md front matter sets <code>max_turns: 40</code>, <code>timeout_seconds: 900</code> and the allowed tools; <code>place-files.sh</code> scaffolds input files).</p>
+<h3>Option B: the workspace pattern used for this report</h3>
+<ol>
+<li>Create <code>newmont-skill-workspace/iteration-N/</code> and copy each case's <code>eval_metadata.json</code> (prompt and assertions) from the previous iteration.</li>
+<li>Launch 3 unattended Opus runs per case per configuration, each seeing only the skill and the prompt, with the brief rule: if you need something from the user, write <code>questions.md</code> and stop. Outputs go to <code>&lt;case&gt;/&lt;config&gt;/run-K/outputs/</code>.</li>
+<li>Run the programmatic graders:
+<pre>/Users/bpatel/dev/newmont-skill-workspace/.venv/bin/python tools/grade_all.py iteration-N</pre></li>
+<li>Spawn LLM graders (Opus, skill-creator <code>agents/grader.md</code>) for the judgment assertions; each writes <code>grading.json</code> into its run folder.</li>
+<li>Aggregate:
+<pre>python &lt;skill-creator&gt;/scripts/aggregate_benchmark.py iteration-N --skill-name newmont-brand</pre></li>
+<li>Build the review page and read the runs side by side:
+<pre>python &lt;skill-creator&gt;/eval-viewer/generate_review.py iteration-N --skill-name newmont-brand \
+  --benchmark iteration-N/benchmark.json --static review-iteration-N.html</pre></li>
+<li>Write <code>variance.md</code> per case (passed in all, flipped, structural differences), patch the skill or kit, and repeat.</li>
+</ol>
+</section>
+
+<section class="major" id="appendix-a">
+<h2>Appendix A: file trees (top two levels)</h2>
+<div class="two tree">
+<div><h3>Skill folder</h3><pre>newmont-skill/
+├── .git/
+├── .gitignore
+├── README.md
+├── SKILL.md
+├── TEST-PLAN.md
+├── docs/
+│   ├── evaluation-report.html
+│   └── evaluation-report.pdf
+├── evals/
+│   ├── RESULTS-2026-11-05.md
+│   ├── complete-brief-deck/
+│   ├── financial-template-two-slides/
+│   ├── fix-off-brand-deck/
+│   ├── html-one-pager/
+│   ├── just-go-with-placeholders/
+│   ├── long-content-must-split/
+│   ├── off-palette-request/
+│   ├── photo-backdrop-and-phases/
+│   └── underspecified-deck-asks-first/
+├── out/
+│   └── quarterly-exec-summary/
+└── scripts/
+    ├── check_deck.py
+    ├── inspect_pptx.py
+    └── newmont_kit.py</pre></div>
+<div><h3>Workspace</h3><pre>newmont-skill-workspace/
+├── .venv/
+├── SKILL.old.md
+├── check_deck.py.bak
+├── grading-partial.json
+├── iteration-1/
+│   ├── benchmark.json
+│   ├── benchmark.md
+│   ├── complete-brief-deck/
+│   ├── fix-off-brand-deck/
+│   ├── html-one-pager/
+│   └── underspecified-deck-asks-first/
+├── iteration-2/
+│   ├── _superseded/
+│   ├── benchmark.json
+│   ├── benchmark.md
+│   ├── complete-brief-deck/
+│   ├── fix-off-brand-deck/
+│   ├── html-one-pager/
+│   └── underspecified-deck-asks-first/
+├── iteration-3/
+│   ├── benchmark.json
+│   ├── benchmark.md
+│   ├── just-go-with-placeholders/
+│   ├── long-content-must-split/
+│   ├── off-palette-request/
+│   └── photo-backdrop-and-phases/
+├── iteration-4/
+│   ├── benchmark.json
+│   ├── benchmark.md
+│   ├── just-go-with-placeholders/
+│   └── long-content-must-split/
+├── iteration-5/
+│   ├── benchmark.json
+│   ├── benchmark.md
+│   └── financial-template-two-slides/
+├── kit-smoke/
+├── render-offbrand/
+├── review-iteration-2.html
+├── review-round2-reruns.html
+├── review-round2.html
+├── skill-snapshot/
+├── tools/
+│   ├── grade_all.py
+│   ├── grade_html.py
+│   ├── grade_pptx.py
+│   ├── grade_round2.py
+│   ├── inspect_pptx.py
+│   ├── make_fixtures.py
+│   └── render.sh
+└── user-deck/</pre></div>
+</div>
+</section>
+
+<section class="major" id="appendix-b">
+<h2>Appendix B: the nine prompts (verbatim)</h2>
+<p class="small">Bodies of each case's <code>prompt.md</code>, front matter omitted.</p>
+<div class="prompt"><h3>underspecified-deck-asks-first</h3><pre>put together a newmont deck on our Q3 safety performance for the exec team</pre></div>
+<div class="prompt"><h3>complete-brief-deck</h3><pre>Build the Newmont deck below as a PowerPoint file and save it as ahafo-review.pptx. Use US spelling. Footer deck name: &quot;Newmont – Ahafo North Ramp-up Review&quot;. Date for the cover: November 2026. Photos: people.jpg for the people shot and site.jpg for the wide operations shot.
+
+Six pages, in this order:
+
+1. Cover. Title lines: &quot;Ahafo North&quot; / &quot;Ramp-up Review&quot;.
+2. Section divider: &quot;Ramp-up status&quot;
+3. Statement page on dark. Title: &quot;Ahafo North is ahead of plan on throughput and on plan for cost&quot;. Eyebrow: PURPOSE. Statement: &quot;This review confirms where the ramp-up stands against the approved plan and what we need from the executive team this quarter.&quot; Left column label WHAT IS WORKING with two items: &quot;Mill throughput is at 104% of plan&quot; / &quot;Commissioning finished two weeks early and the circuit has held nameplate since October.&quot;; &quot;Recordable injuries are down&quot; / &quot;TRIFR fell to 0.9 from 1.4 in the prior quarter with no high-potential incidents.&quot;. Right column label WHAT NEEDS ATTENTION with two items: &quot;Power supply remains the key risk&quot; / &quot;Grid stability events caused 11 hours of unplanned downtime in October.&quot;; &quot;Contractor demobilization is behind&quot; / &quot;About 180 contractors remain on site against a plan of 120 by this point.&quot;.
+4. Three-column content page. Title: &quot;Three actions will keep the ramp-up on plan through the first quarter&quot;. Columns: &quot;Secure backup power&quot; / &quot;Commission the second genset bank by January and sign the grid firming agreement.&quot;; &quot;Complete contractor demobilization&quot; / &quot;Close out the remaining 60 contractor roles by mid-December with handover to operations.&quot;; &quot;Lock in the cost base&quot; / &quot;Hold AISC within 3% of plan by finishing the reagent contract renegotiation.&quot;.
+5. Table page. Title: &quot;Capital spend is tracking under the approved budget&quot;. Subtitle: &quot;Project capital, USD millions&quot;. Columns: Item / Approved / Actual to date. Rows: Process plant / 412 / 398; Power and infrastructure / 96 / 103; Mining fleet / 150 / 141; Owner&#x27;s costs / 58 / 55. Total row: Total / 716 / 697. Footnote label &quot;Note&quot; with text &quot;Actuals are unaudited and exclude capitalized interest.&quot;.
+6. Closing page: &quot;Thank you!&quot;
+
+Input files: people.jpg, site.jpg</pre></div>
+<div class="prompt"><h3>html-one-pager</h3><pre>I need a Newmont-branded one-page HTML update for the intranet, saved as tailings-update.html. No photos. Content:
+
+Eyebrow: TAILINGS MANAGEMENT
+Title: Every operating facility now meets the Global Industry Standard on Tailings Management
+Lead statement: All 32 tailings storage facilities completed conformance review this quarter, two years ahead of the original commitment.
+Three columns:
+- &quot;Independent review complete&quot; / &quot;Each facility was assessed by an independent tailings review board and the findings are published on the site pages.&quot;
+- &quot;Monitoring is now continuous&quot; / &quot;Piezometer and inclinometer data streams to the central dashboard every fifteen minutes with automated alerts.&quot;
+- &quot;Closure planning is funded&quot; / &quot;Closure cost estimates were updated for every facility and the provision is reflected in the Q3 accounts.&quot;
+Callout: &quot;What this means for you&quot; / &quot;If you work on or near a tailings facility, the updated emergency preparedness plan applies from 1 December. Your site lead will walk you through it.&quot;</pre></div>
+<div class="prompt"><h3>fix-off-brand-deck</h3><pre>This deck came back from the agency and it looks off-brand for Newmont. Can you fix it so it follows the Newmont system? Keep all the content. Save the result as fixed.pptx and tell me what you changed.
+
+Input files: off-brand.pptx</pre></div>
+<div class="prompt"><h3>just-go-with-placeholders</h3><pre>put together a newmont deck on our Q3 safety performance for the exec team. I don&#x27;t have the final numbers yet so just go with placeholders and we&#x27;ll fill them in, no photos yet either</pre></div>
+<div class="prompt"><h3>long-content-must-split</h3><pre>Newmont deck, PowerPoint, save as cadia-expansion.pptx. US spelling. Footer: &quot;Newmont – Cadia Expansion Update&quot;. Cover date: November 2026. Photos: people.jpg (people) and site.jpg (wide site). Cover title: &quot;Cadia Expansion&quot; / &quot;Update&quot;.
+
+After the cover I need these, in order, then a closing page. Don&#x27;t cut any of my text; if something doesn&#x27;t fit the page type, split it across pages.
+
+A. Six workstreams, each with a one-line description:
+- &quot;Panel cave 2 development&quot; / &quot;Undercut advance is 410 m ahead of the plan and all extraction drives are complete.&quot;
+- &quot;Mill expansion&quot; / &quot;The new SAG mill foundations are poured and mechanical installation starts in January.&quot;
+- &quot;Tailings capacity&quot; / &quot;Stage 7 lift of the southern TSF is 60% complete and on track for May.&quot;
+- &quot;Power and water&quot; / &quot;The 132 kV line upgrade is energized and the recycled water plant is in commissioning.&quot;
+- &quot;Village and workforce&quot; / &quot;The 400-room village extension opened in October and recruitment is 85% complete.&quot;
+- &quot;Approvals&quot; / &quot;The modification application was lodged in September and the first information request has been answered.&quot;
+
+B. Seven risks, each with a one-sentence mitigation:
+1. &quot;Ground conditions in the cave footprint&quot; / &quot;Additional cable bolting and a revised extraction sequence are in place.&quot;
+2. &quot;Mill delivery schedule&quot; / &quot;The vendor has committed to a December shipment with liquidated damages in the contract.&quot;
+3. &quot;Wet season access&quot; / &quot;Haul road drainage upgrades were finished before November.&quot;
+4. &quot;Contractor availability&quot; / &quot;Two framework contractors are on standby with signed rates.&quot;
+5. &quot;Water balance&quot; / &quot;The recycled water plant reduces raw water draw by 30% from Q1.&quot;
+6. &quot;Community concerns about dust&quot; / &quot;Real-time monitors are live on the village boundary with public reporting.&quot;
+7. &quot;Regulatory timing&quot; / &quot;Weekly engagement with the department is scheduled through the assessment period.&quot;
+
+C. A page that says, in one sentence: &quot;The expansion remains on schedule and within 2% of budget, and we are asking for approval to release the next funding tranche in December.&quot; with eyebrow DECISION REQUESTED.
+
+Input files: people.jpg, site.jpg</pre></div>
+<div class="prompt"><h3>off-palette-request</h3><pre>Newmont one-page HTML flyer for the Cadia community open day, save as open-day.html. Our event sponsor wants their teal (#008080) used for the event banner across the top, everything else should be normal Newmont. No photos. Content:
+
+Eyebrow: COMMUNITY OPEN DAY
+Title: Come and see how Cadia works on Saturday 14 February
+Lead: Gates open at 9 am and the last tour leaves at 2 pm. Buses run from Orange and Blayney every half hour.
+Three columns:
+- &quot;Underground virtual tour&quot; / &quot;Walk through the panel cave with our operators using the new VR rigs.&quot;
+- &quot;Environment stand&quot; / &quot;See the live water and dust monitoring data for the site boundary.&quot;
+- &quot;Family area&quot; / &quot;Face painting, a haul-truck photo spot and a sausage sizzle run by the Cadia Lions.&quot;
+Callout: &quot;Getting there&quot; / &quot;Free parking is at the Cadia Road entrance. Please bring closed shoes for the processing plant walk.&quot;</pre></div>
+<div class="prompt"><h3>photo-backdrop-and-phases</h3><pre>Four-page Newmont deck, save as autonomy-plan.pptx, US spelling, footer &quot;Newmont – Haul Truck Autonomy Plan&quot;, cover date November 2026, cover photos people.jpg and site.jpg, cover title &quot;Haul Truck&quot; / &quot;Autonomy Plan&quot;.
+
+Page 2 is a photo backdrop page using backdrop.jpg. Title: &quot;Autonomy will change how every shift at Boddington runs&quot;. Two paragraphs: &quot;Forty trucks move to autonomous operation over the next two years, starting with the north pit.&quot; and &quot;Every operator affected has a role in the new control room or a funded pathway to one.&quot; Two panels: &quot;Priority 1:&quot; / &quot;Keep people safe&quot; / &quot;No person in an autonomous zone, ever&quot; and &quot;Priority 2:&quot; / &quot;Keep trucks moving&quot; / &quot;Fleet availability above 90% from month six&quot;.
+
+Page 3 is a phase panels page. Title: &quot;Step 1: Build the control room | Key Steps&quot;. Objective: &quot;Stand up the autonomy control room and certify the first ten operators before the first truck is converted.&quot; Phase 1, duration &quot;6 weeks&quot;, heading &quot;1. Control room fit-out&quot;, items: &quot;Install the operator stations and the network core.&quot; (paragraph) then bullets &quot;Commission the 4G private network&quot;, &quot;Run the failover test&quot;, &quot;Sign off the safety case&quot;. Phase 2, duration &quot;8 weeks&quot;, heading &quot;2. Operator certification&quot;, items: &quot;Train and certify the first cohort.&quot; (paragraph) then bullets &quot;Ten operators through the simulator course&quot;, &quot;Supervised live shifts on two trucks&quot;, &quot;Certification board sign-off&quot;.
+
+Page 4 is the closing.
+
+Input files: backdrop.jpg, people.jpg, site.jpg</pre></div>
+<div class="prompt"><h3>financial-template-two-slides</h3><pre>build me an executvive summary slide template to show quartlery financials and reporting, there no title sldies, its jsut the two slides</pre></div>
+</section>
+
+</div>
+</body>
+</html>
