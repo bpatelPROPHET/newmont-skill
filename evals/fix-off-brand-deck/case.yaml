@@ -1,0 +1,11 @@
+schema_version: "1.1"
+name: fix-off-brand-deck
+expected_outcome: |
+  The input is a four-slide deck in Calibri with a blue-grey and red palette, rounded
+  rectangles, drop shadows, a gradient background and Title Case headings. A good result
+  is fixed.pptx with the same four slides and all of the original text, restyled to
+  Open Sans, the Newmont palette, flat shapes, the logo and footer on content pages,
+  and a short list of what was changed. The run may ask about the deck name for the
+  footer and the date, but should not need more than that.
+context:
+  scaffold_script: place-files.sh

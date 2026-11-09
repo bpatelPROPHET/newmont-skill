@@ -1,0 +1,10 @@
+schema_version: "1.1"
+name: photo-backdrop-and-phases
+expected_outcome: |
+  Complete brief, no questions. Slide 2 is a full-bleed backdrop photo with white title,
+  the two 24 pt paragraphs and two white 70% panels with the 1 pt border at the kit's
+  positions. Slide 3 has the objective, two duration labels with arrows, the sky 10% panel
+  and two numbered phase columns with the paragraph and bullets. The kit's photo_panels and
+  phase_panels methods are used rather than hand-built approximations.
+context:
+  scaffold_script: place-files.sh

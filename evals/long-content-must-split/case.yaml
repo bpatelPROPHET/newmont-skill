@@ -1,0 +1,12 @@
+schema_version: "1.1"
+name: long-content-must-split
+expected_outcome: |
+  The brief is complete, so no questions. The six workstreams do not fit one three-column
+  page, so they become two three-column pages (or two statement pages) with no shrunken
+  type; the seven risks become one or two plain content pages or statement pages with all
+  seven mitigations, never a cramped page; the decision sentence is a statement page on
+  dark with the eyebrow. Every type size is from the skill's scale, every word of the brief
+  is present, the reply lists the pages with their page types, and three runs of this brief
+  produce the same page count and the same page types.
+context:
+  scaffold_script: place-files.sh

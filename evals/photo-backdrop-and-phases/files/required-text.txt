@@ -1,0 +1,26 @@
+Haul Truck
+Autonomy Plan
+November 2026
+Autonomy will change how every shift at Boddington runs
+Forty trucks move to autonomous operation over the next two years, starting with the north pit.
+Every operator affected has a role in the new control room or a funded pathway to one.
+Priority 1:
+Keep people safe
+No person in an autonomous zone, ever
+Priority 2:
+Keep trucks moving
+Fleet availability above 90% from month six
+Step 1: Build the control room | Key Steps
+Stand up the autonomy control room and certify the first ten operators before the first truck is converted.
+6 weeks
+1. Control room fit-out
+Install the operator stations and the network core.
+Commission the 4G private network
+Run the failover test
+Sign off the safety case
+8 weeks
+2. Operator certification
+Train and certify the first cohort.
+Ten operators through the simulator course
+Supervised live shifts on two trucks
+Certification board sign-off

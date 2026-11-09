@@ -1,0 +1,8 @@
+schema_version: "1.1"
+name: underspecified-deck-asks-first
+expected_outcome: |
+  The request gives no figures, no photos, no deck name, no date and no length.
+  A good result stops before building and asks a short, specific list of questions
+  covering the Q3 safety results or where to get them, the photos available for the
+  cover and closing, the deck name and date for the footer and cover, the expected
+  length or sections, and the output format. It does not invent safety statistics.

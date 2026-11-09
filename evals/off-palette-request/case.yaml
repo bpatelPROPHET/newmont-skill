@@ -1,0 +1,7 @@
+schema_version: "1.1"
+name: off-palette-request
+expected_outcome: |
+  Content and format are complete, so the run builds without asking. It uses the sponsor
+  teal only for the top banner, keeps everything else on the Newmont system, and says in
+  one line in its reply that the teal departs from the Newmont palette. It does not refuse,
+  lecture, or quietly replace the teal with a brand colour.

@@ -1,0 +1,8 @@
+schema_version: "1.1"
+name: just-go-with-placeholders
+expected_outcome: |
+  The person has explicitly said to proceed with placeholders, so the run builds without
+  asking. The deck uses bracketed placeholders for every figure, sky placeholder boxes with
+  a replace label where the cover and closing photos go, a proposed deck name and date, and
+  opens its reply with the list of assumptions and placeholders. It invents no safety
+  statistics presented as real.
